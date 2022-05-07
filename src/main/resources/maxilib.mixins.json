@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.reikeb.maxilib.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "maxilib.refmap.json",
+  "mixins": [
+    "VoxelShapeMixin"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

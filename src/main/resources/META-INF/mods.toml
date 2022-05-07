@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "GNU GPL 3.0"
+
+[[mods]]
+modId = "maxilib"
+version = "${file.jarVersion}"
+displayName = "MaxiLib"
+credits="Credits are on mod's page."
+authors="Max094_Reikeb"
+description = '''
+MaxiLib is a custom mod library for Max's mods
+'''
+
+[[dependencies.maxilib]] #optional
+modId = "forge"
+mandatory = true
+versionRange = "[40,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.maxilib]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,1.19)"
+ordering = "NONE"
+side = "BOTH"
