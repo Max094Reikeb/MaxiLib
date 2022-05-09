@@ -102,7 +102,7 @@ public class BiomeUtil {
      * @return Closest position of the biome
      */
     @Nullable // This runs server side ONLY, so `ServerLevel` is safe here.
-    private static BlockPos getNearestBiomePosition(ServerLevel serverLevel, BlockPos startPosition, ResourceKey<Biome> biomeToFind) {
+    public static BlockPos getNearestBiomePosition(ServerLevel serverLevel, BlockPos startPosition, ResourceKey<Biome> biomeToFind) {
         return getNearestBiomePosition(serverLevel, startPosition, biomeToFind, 6400, 8);
     }
 
@@ -118,7 +118,7 @@ public class BiomeUtil {
      * @return Closest position of the biome
      */
     @Nullable // This runs server side ONLY, so `ServerLevel` is safe here.
-    private static BlockPos getNearestBiomePosition(ServerLevel serverLevel, BlockPos startPosition, ResourceKey<Biome> biomeToFind, int searchRadius, int incrementation) {
+    public static BlockPos getNearestBiomePosition(ServerLevel serverLevel, BlockPos startPosition, ResourceKey<Biome> biomeToFind, int searchRadius, int incrementation) {
         Registry<Biome> biomes = serverLevel.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
         // The holder for biome resource key
         Holder<Biome> holderToFind = biomes.getHolder(biomeToFind).orElseThrow(() -> new IllegalArgumentException("This biome does not exist in the biome registry!"));
