@@ -1,25 +1,65 @@
 package net.reikeb.maxilib.abs;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.reikeb.maxilib.intface.EnergyInterface;
 import net.reikeb.maxilib.inventory.ItemHandler;
 
-public interface AbstractEnergyBlockEntity {
+public abstract class AbstractEnergyBlockEntity extends AbstractBlockEntity implements EnergyInterface {
 
-    ItemHandler getItemInventory();
+    private double electronicPower;
+    private int maxStorage;
 
-    int getElectronicPowerTimesHundred();
+    protected AbstractEnergyBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, String defaultName, String modId, int slots) {
+        super(blockEntityType, pos, state, defaultName, modId, slots);
+    }
 
-    void setElectronicPowerTimesHundred(int electronicPowerTimesHundred);
+    public ItemHandler getItemInventory() {
+        return this.inventory;
+    }
 
-    double getElectronicPower();
+    public int getElectronicPowerTimesHundred() {
+        return (int) (this.electronicPower * 100);
+    }
 
-    void setElectronicPower(double electronicPower);
+    public void setElectronicPowerTimesHundred(int electronicPowerTimesHundred) {
+        this.electronicPower = electronicPowerTimesHundred / 100.0;
+    }
 
-    int getMaxStorage();
+    public double getElectronicPower() {
+        return this.electronicPower;
+    }
 
-    void setMaxStorage(int maxStorage);
+    public void setElectronicPower(double electronicPower) {
+        this.electronicPower = electronicPower;
+    }
 
-    boolean getLogic();
+    public int getMaxStorage() {
+        return this.maxStorage;
+    }
 
-    void setLogic(boolean logic);
+    public void setMaxStorage(int maxStorage) {
+        this.maxStorage = maxStorage;
+    }
+
+    public boolean getLogic() {
+        return false;
+    }
+
+    public void setLogic(boolean logic) {}
+
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        this.electronicPower = compound.getDouble("ElectronicPower");
+        this.maxStorage = compound.getInt("MaxStorage");
+    }
+
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.putDouble("ElectronicPower", this.electronicPower);
+        compound.putInt("MaxStorage", this.maxStorage);
+    }
 }
 

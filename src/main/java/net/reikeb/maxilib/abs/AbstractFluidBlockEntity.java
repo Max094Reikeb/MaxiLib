@@ -12,10 +12,13 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.reikeb.maxilib.intface.FluidInterface;
+import net.reikeb.maxilib.intface.IFluid;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
-public class AbstractFluidBlockEntity extends AbstractBlockEntity {
+public abstract class AbstractFluidBlockEntity extends AbstractBlockEntity implements FluidInterface {
 
     private final int fluidCapacity;
     private final FluidTankHandler fluidTank;
@@ -36,6 +39,26 @@ public class AbstractFluidBlockEntity extends AbstractBlockEntity {
             }
         };
     }
+
+    public int getWaterLevel() {
+        return IFluid.getFluidAmount(this).get();
+    }
+
+    public void setWaterLevel(int amount) {
+        AtomicInteger waterLevel = IFluid.getFluidAmount(this);
+        IFluid.drainWater(this, waterLevel.get());
+        IFluid.fillWater(this, amount);
+    }
+
+    public int getMaxCapacity() {
+        return IFluid.getTankCapacity(this).get();
+    }
+
+    public boolean getLogic() {
+        return false;
+    }
+
+    public void setLogic(boolean logic) {}
 
     @Override
     public void load(CompoundTag compound) {
