@@ -1,13 +1,5 @@
 package net.reikeb.maxilib.intface;
 
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.reikeb.maxilib.abs.AbstractFluidBlockEntity;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class IFluid {
 
     /**
@@ -16,9 +8,8 @@ public class IFluid {
      * @param be     The BlockEntity we drain water from
      * @param amount The amount of water drained
      */
-    public static void drainWater(AbstractFluidBlockEntity be, int amount) {
-        be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                .ifPresent(cap -> cap.drain(amount, IFluidHandler.FluidAction.EXECUTE));
+    public static <T extends FluidInterface> void drainWater(T be, int amount) {
+        be.setWaterLevel(be.getWaterLevel() - amount);
     }
 
     /**
@@ -27,9 +18,8 @@ public class IFluid {
      * @param be     The BlockEntity we give water to
      * @param amount The amount of water given
      */
-    public static void fillWater(AbstractFluidBlockEntity be, int amount) {
-        be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                .ifPresent(cap -> cap.fill(new FluidStack(Fluids.WATER, amount), IFluidHandler.FluidAction.EXECUTE));
+    public static <T extends FluidInterface> void fillWater(T be, int amount) {
+        be.setWaterLevel(be.getWaterLevel() + amount);
     }
 
     /**
@@ -38,11 +28,8 @@ public class IFluid {
      * @param be The BlockEntity to check
      * @return The amount of fluid
      */
-    public static AtomicInteger getFluidAmount(AbstractFluidBlockEntity be) {
-        AtomicInteger amount = new AtomicInteger();
-        be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                .ifPresent(cap -> amount.set(cap.getFluidInTank(1).getAmount()));
-        return amount;
+    public static <T extends FluidInterface> int getFluidAmount(T be) {
+        return be.getWaterLevel();
     }
 
     /**
@@ -51,10 +38,7 @@ public class IFluid {
      * @param be The BlockEntity to check
      * @return The tank capacity
      */
-    public static AtomicInteger getTankCapacity(AbstractFluidBlockEntity be) {
-        AtomicInteger capacity = new AtomicInteger();
-        be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                .ifPresent(cap -> capacity.set(cap.getTankCapacity(1)));
-        return capacity;
+    public static <T extends FluidInterface> int getTankCapacity(T be) {
+        return be.getMaxCapacity();
     }
 }

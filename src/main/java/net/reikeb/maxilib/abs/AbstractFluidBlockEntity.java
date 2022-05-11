@@ -10,10 +10,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.reikeb.maxilib.intface.FluidInterface;
-import net.reikeb.maxilib.intface.IFluid;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -41,17 +41,24 @@ public abstract class AbstractFluidBlockEntity extends AbstractBlockEntity imple
     }
 
     public int getWaterLevel() {
-        return IFluid.getFluidAmount(this).get();
+        AtomicInteger amount = new AtomicInteger();
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                .ifPresent(cap -> amount.set(cap.getFluidInTank(1).getAmount()));
+        return amount.get();
     }
 
     public void setWaterLevel(int amount) {
-        AtomicInteger waterLevel = IFluid.getFluidAmount(this);
-        IFluid.drainWater(this, waterLevel.get());
-        IFluid.fillWater(this, amount);
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                .ifPresent(cap -> cap.drain(getWaterLevel(), IFluidHandler.FluidAction.EXECUTE));
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                .ifPresent(cap -> cap.fill(new FluidStack(Fluids.WATER, amount), IFluidHandler.FluidAction.EXECUTE));
     }
 
     public int getMaxCapacity() {
-        return IFluid.getTankCapacity(this).get();
+        AtomicInteger capacity = new AtomicInteger();
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                .ifPresent(cap -> capacity.set(cap.getTankCapacity(1)));
+        return capacity.get();
     }
 
     public boolean getLogic() {

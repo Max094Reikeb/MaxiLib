@@ -1,7 +1,5 @@
 package net.reikeb.maxilib.intface;
 
-import net.reikeb.maxilib.abs.AbstractEnergyBlockEntity;
-
 public class IEnergy {
 
     /**
@@ -10,7 +8,7 @@ public class IEnergy {
      * @param be     The BlockEntity we drain energy from
      * @param amount The amount of energy drained
      */
-    public static void drainEnergy(AbstractEnergyBlockEntity be, double amount) {
+    public static <T extends EnergyInterface> void drainEnergy(T be, double amount) {
         be.setElectronicPower(be.getElectronicPower() - amount);
     }
 
@@ -20,7 +18,7 @@ public class IEnergy {
      * @param be     The BlockEntity we give energy to
      * @param amount The amount of energy given
      */
-    public static void fillEnergy(AbstractEnergyBlockEntity be, double amount) {
+    public static <T extends EnergyInterface> void fillEnergy(T be, double amount) {
         be.setElectronicPower(be.getElectronicPower() + amount);
     }
 
@@ -30,7 +28,7 @@ public class IEnergy {
      * @param be The BlockEntity to check
      * @return The amount of energy
      */
-    public static double getEnergy(AbstractEnergyBlockEntity be) {
+    public static <T extends EnergyInterface> double getEnergy(T be) {
         return be.getElectronicPower();
     }
 
@@ -40,7 +38,7 @@ public class IEnergy {
      * @param be     The BlockEntity we set energy to
      * @param amount The amount of energy we set
      */
-    public static void setEnergy(AbstractEnergyBlockEntity be, double amount) {
+    public static <T extends EnergyInterface> void setEnergy(T be, double amount) {
         be.setElectronicPower(amount);
     }
 
@@ -50,7 +48,7 @@ public class IEnergy {
      * @param be The BlockEntity to check
      * @return The capacity
      */
-    public static int getMaxEnergy(AbstractEnergyBlockEntity be) {
+    public static <T extends EnergyInterface> int getMaxEnergy(T be) {
         return be.getMaxStorage();
     }
 }
