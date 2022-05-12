@@ -33,42 +33,42 @@ public class BiomeUtil {
     /**
      * Modifies the biome at a location by a biome's ResourceLocation
      *
-     * @param world            The world of the biome
+     * @param level            The level of the biome
      * @param pos              The location of the biome
      * @param resourceLocation The biome's ResourceLocation to replace with
      */
-    public static void setBiomeAtPos(Level world, BlockPos pos, ResourceLocation resourceLocation) {
-        Biome biome = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(resourceLocation);
+    public static void setBiomeAtPos(Level level, BlockPos pos, ResourceLocation resourceLocation) {
+        Biome biome = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(resourceLocation);
         if (biome == null) return;
-        if (world.isClientSide) return;
-        setBiomeAtPos(world, pos, biome);
+        if (level.isClientSide) return;
+        setBiomeAtPos(level, pos, biome);
         NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, resourceLocation));
     }
 
     /**
      * Modifies the biome at a location by a biome's ResourceKey
      *
-     * @param world    The world of the biome
+     * @param level    The level of the biome
      * @param pos      The location of the biome
      * @param biomeKey The biome's ResourceKey to replace with
      */
-    public static void setBiomeKeyAtPos(Level world, BlockPos pos, ResourceKey<Biome> biomeKey) {
-        Biome biome = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(biomeKey);
+    public static void setBiomeKeyAtPos(Level level, BlockPos pos, ResourceKey<Biome> biomeKey) {
+        Biome biome = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(biomeKey);
         if (biome == null) return;
-        if (world.isClientSide) return;
-        setBiomeAtPos(world, pos, biome);
+        if (level.isClientSide) return;
+        setBiomeAtPos(level, pos, biome);
         NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, biome.getRegistryName()));
     }
 
     /**
      * Modifies the biome at a location by another biome
      *
-     * @param world The world of the biome
+     * @param level The level of the biome
      * @param pos   The location of the biome
      * @param biome The other biome to replace with
      */
-    public static void setBiomeAtPos(Level world, BlockPos pos, Biome biome) {
-        ChunkAccess chunkAccess = world.getChunk(pos);
+    public static void setBiomeAtPos(Level level, BlockPos pos, Biome biome) {
+        ChunkAccess chunkAccess = level.getChunk(pos);
         int biomeIndex = getBiomeIndex(pos);
         if (biomeIndex < chunkAccess.getSections().length) {
             LevelChunkSection chunkSection = chunkAccess.getSection(biomeIndex);

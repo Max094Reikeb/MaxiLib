@@ -51,9 +51,9 @@ public class BiomeSingleUpdatePacket {
 
         @Override
         public Object call() {
-            ClientLevel world = Minecraft.getInstance().level;
-            if (world == null) return null;
-            BiomeUtil.setBiomeAtPos(world, pos, world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getOptional(biome).orElseThrow());
+            ClientLevel clientLevel = Minecraft.getInstance().level;
+            if (clientLevel == null) return null;
+            BiomeUtil.setBiomeAtPos(clientLevel, pos, clientLevel.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getOptional(biome).orElseThrow());
             return null;
         }
     }

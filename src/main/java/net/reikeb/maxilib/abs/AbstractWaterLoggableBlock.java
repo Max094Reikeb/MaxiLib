@@ -27,10 +27,10 @@ public abstract class AbstractWaterLoggableBlock extends Block implements Simple
      * Handles ticking the water if waterlogged. Call "super.neighborChanged()" first.
      */
     @Override
-    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        if (!world.isClientSide)
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        if (!level.isClientSide)
             if (state.getValue(WATERLOGGED))
-                world.scheduleTick(pos, Fluids.WATER, 0);
+                level.scheduleTick(pos, Fluids.WATER, 0);
     }
 
     /**
@@ -55,19 +55,19 @@ public abstract class AbstractWaterLoggableBlock extends Block implements Simple
      */
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor levelAccessor, BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(WATERLOGGED))
-            world.scheduleTick(currentPos, Fluids.WATER, 0);
+            levelAccessor.scheduleTick(currentPos, Fluids.WATER, 0);
 
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, facing, facingState, levelAccessor, currentPos, facingPos);
     }
 
     /**
      * Handles ticking the water if waterlogged. Call "super.onBlockAdded()" first.
      */
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
-        world.scheduleTick(pos, Fluids.WATER, 0);
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        level.scheduleTick(pos, Fluids.WATER, 0);
     }
 
     /**

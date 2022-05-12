@@ -66,12 +66,12 @@ public class Utils {
     /**
      * Method that get the BlockHitResult of where the player looks at
      *
-     * @param world         The world
+     * @param level         The level
      * @param player        The player
      * @param fluidHandling Defines the fluid handling
      * @return The BlockHitResult
      */
-    public static BlockHitResult rayTrace(Level world, Player player, ClipContext.Fluid fluidHandling) {
+    public static BlockHitResult rayTrace(Level level, Player player, ClipContext.Fluid fluidHandling) {
         float f = player.getXRot();
         float g = player.getYRot();
         Vec3 vec3d = player.getPosition(1.0f);
@@ -82,7 +82,7 @@ public class Utils {
         float l = i * j;
         float n = h * j;
         Vec3 vec3d2 = new Vec3(l * 5.0D, k * 5.0D, n * 5.0D);
-        return world.clip(new ClipContext(vec3d, vec3d.add(vec3d2), ClipContext.Block.OUTLINE, fluidHandling, player));
+        return level.clip(new ClipContext(vec3d, vec3d.add(vec3d2), ClipContext.Block.OUTLINE, fluidHandling, player));
     }
 
     /**
@@ -123,10 +123,7 @@ public class Utils {
      * @return List of living entities
      */
     public static List<LivingEntity> getLivingEntitiesInRadius(Level level, BlockPos blockPos, int radius) {
-        return level.getEntitiesOfClass(LivingEntity.class, new AABB(blockPos.getX() - radius,
-                        blockPos.getY() - radius, blockPos.getZ() - radius, blockPos.getX() + radius,
-                        blockPos.getY() + radius, blockPos.getZ() + radius),
-                EntitySelector.LIVING_ENTITY_STILL_ALIVE).stream().sorted(new Object() {
+        return level.getEntitiesOfClass(LivingEntity.class, new AABB(blockPos.getX() - radius, blockPos.getY() - radius, blockPos.getZ() - radius, blockPos.getX() + radius, blockPos.getY() + radius, blockPos.getZ() + radius), EntitySelector.LIVING_ENTITY_STILL_ALIVE).stream().sorted(new Object() {
             Comparator<Entity> compareDistOf(double x, double y, double z) {
                 return Comparator.comparing(axis -> axis.distanceToSqr(x, y, z));
             }

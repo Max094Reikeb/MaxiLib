@@ -134,10 +134,10 @@ public abstract class AbstractBlockEntity extends BaseContainerBlockEntity {
         return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> this.inventory));
     }
 
-    public void dropItems(Level world, BlockPos pos) {
+    public void dropItems(Level level, BlockPos pos) {
         for (int i = 0; i < slots; i++)
             if (!inventory.getStackInSlot(i).isEmpty()) {
-                Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), inventory.getStackInSlot(i));
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), inventory.getStackInSlot(i));
             }
     }
 

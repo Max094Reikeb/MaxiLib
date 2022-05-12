@@ -41,9 +41,7 @@ public abstract class AbstractCable extends Block implements SimpleWaterloggedBl
     public final VoxelShape[] SHAPES;
 
     public AbstractCable(String name, Material material, float hardness, float resistance, SoundType sound, int size) {
-        super(Properties.of(material)
-                .sound(sound)
-                .strength(hardness, resistance));
+        super(Properties.of(material).sound(sound).strength(hardness, resistance));
         int halfSize = size / 2;
         this.S_NORTH = Block.box(8 - halfSize, 0, 0, 8 + halfSize, halfSize * 2, 8 - halfSize);
         this.S_SOUTH = Block.box(8 - halfSize, 0, 8 + halfSize, 8 + halfSize, halfSize * 2, 16);
@@ -73,15 +71,15 @@ public abstract class AbstractCable extends Block implements SimpleWaterloggedBl
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        BlockState newState = updateState(state, worldIn, pos);
-        if (!newState.equals(state)) worldIn.setBlockAndUpdate(pos, newState);
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        BlockState newState = updateState(state, level, pos);
+        if (!newState.equals(state)) level.setBlockAndUpdate(pos, newState);
     }
 
-    public BlockState updateState(BlockState state, Level worldIn, BlockPos pos) {
+    public BlockState updateState(BlockState state, Level level, BlockPos pos) {
         for (Direction side : Direction.values()) {
             BooleanProperty prop = CONNECTIONS[side.get3DDataValue()];
-            boolean mustConnect = canConnectTo(state, worldIn, pos, pos.relative(side), side.getOpposite());
+            boolean mustConnect = canConnectTo(state, level, pos, pos.relative(side), side.getOpposite());
             boolean isConnected = state.getValue(prop);
             if (mustConnect != isConnected) state = state.setValue(prop, mustConnect);
         }
@@ -99,7 +97,7 @@ public abstract class AbstractCable extends Block implements SimpleWaterloggedBl
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         VoxelShape shape = state.getValue(MIDDLE) != MiddleState.NONE ? S_MIDDLE : Shapes.empty();
         for (Direction direction : Direction.values()) {
             if (state.getValue(CONNECTIONS[direction.get3DDataValue()])) {
@@ -126,9 +124,9 @@ public abstract class AbstractCable extends Block implements SimpleWaterloggedBl
         return connections;
     }
 
-    public abstract boolean canConnectTo(BlockState wireState, Level worldIn, BlockPos wirePos, BlockPos connectPos, Direction direction);
+    public abstract boolean canConnectTo(BlockState wireState, Level level, BlockPos wirePos, BlockPos connectPos, Direction direction);
 
-    public static enum MiddleState implements StringRepresentable {
+    public enum MiddleState implements StringRepresentable {
         CLOSE("close"), OPEN("open"), NONE("none");
         private String name;
 

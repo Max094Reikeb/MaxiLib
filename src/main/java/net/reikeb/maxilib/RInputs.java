@@ -54,4 +54,20 @@ public class RInputs {
         inputs.add(this.input2);
         return inputs;
     }
+
+    /**
+     * Compares this RInput to the specified object. The result is {@code
+     * true} if and only if the argument is not {@code null} and is a {@code
+     * RInput} object that represents the same RInput as this object.
+     *
+     * @param anObject The object to compare this {@code RInput} against
+     * @return {@code true} if the given object represents a {@code RInput}
+     * equivalent to this RInput, {@code false} otherwise
+     */
+    public boolean equalsTo(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        return anObject instanceof RInputs && ((RInputs) anObject).input1.equals(this.input1) && ((RInputs) anObject).input2.equals(this.input2);
+    }
 }
