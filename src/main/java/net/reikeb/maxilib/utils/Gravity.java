@@ -39,7 +39,7 @@ public class Gravity {
         boolean flag4 = isSupport(level, pos);
         boolean flag5 = staysAttached(level, pos);
         boolean flag6 = isAttachedToNormalBlock(level, pos, true);
-        return ((!flag1) && (!flag2) && (pos.getY() > 0) && flag3 && (!flag4) && (!flag5) && (!flag6));
+        return ((!flag1) && (!flag2) && (pos.getY() > -64) && flag3 && (!flag4) && (!flag5) && (!flag6));
     }
 
     /**
