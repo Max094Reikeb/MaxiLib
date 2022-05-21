@@ -22,6 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -111,6 +112,20 @@ public class Utils {
             for (String criteria : advancementProgress.getRemainingCriteria()) {
                 serverPlayer.getAdvancements().award(advancement, criteria);
             }
+        }
+    }
+
+    /**
+     * Method that execute a function with each entity in a certain radius
+     *
+     * @param level    World the entities are in
+     * @param blockPos Central position where we do the check
+     * @param radius   Radius of the check
+     * @param consumer Function to execute with found Living Entities
+     */
+    public static void forEntitiesInRadius(Level level, BlockPos blockPos, int radius, Consumer<LivingEntity> consumer) {
+        for (LivingEntity livingEntities : getLivingEntitiesInRadius(level, blockPos, radius)) {
+            consumer.accept(livingEntities);
         }
     }
 
