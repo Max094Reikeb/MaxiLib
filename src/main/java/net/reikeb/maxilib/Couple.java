@@ -1,5 +1,14 @@
 package net.reikeb.maxilib;
 
+/**
+ * Couple is a custom record that holds only two parameters that can be of any class. Its goal is to link those variables
+ * in another way than the Map system.
+ *
+ * @param part1 first part of the couple
+ * @param part2 second part of the couple
+ * @param <U>   class of the first couple's part
+ * @param <V>   class of the second couple's part
+ */
 public record Couple<U, V>(U part1, V part2) {
 
     /**

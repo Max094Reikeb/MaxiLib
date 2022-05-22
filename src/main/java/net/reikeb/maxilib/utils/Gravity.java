@@ -6,6 +6,12 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 
+/**
+ * This class is a new concept of custom gravity, opposed to Minecraft's gravity.
+ * <p>
+ * Public methods are meant to be normally called by modders in order to apply this custom gravity system to a block.
+ * Private methods are used by public methods to determine whether a block can be affected by the custom gravity system.
+ */
 public class Gravity {
 
     /**
