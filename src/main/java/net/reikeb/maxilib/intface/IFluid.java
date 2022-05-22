@@ -8,6 +8,7 @@ public class IFluid {
      * @param blockEntity The BlockEntity we drain water from
      * @param amount      The amount of water drained
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> void drainWater(T blockEntity, int amount) {
         blockEntity.setWaterLevel(blockEntity.getWaterLevel() - amount);
     }
@@ -18,6 +19,7 @@ public class IFluid {
      * @param blockEntity The BlockEntity we give water to
      * @param amount      The amount of water given
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> void fillWater(T blockEntity, int amount) {
         blockEntity.setWaterLevel(blockEntity.getWaterLevel() + amount);
     }
@@ -28,6 +30,7 @@ public class IFluid {
      * @param blockEntity The BlockEntity to check
      * @return The amount of fluid
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> int getFluidAmount(T blockEntity) {
         return blockEntity.getWaterLevel();
     }
@@ -38,6 +41,7 @@ public class IFluid {
      * @param blockEntity The BlockEntity to check
      * @return The tank capacity
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> int getTankCapacity(T blockEntity) {
         return blockEntity.getMaxCapacity();
     }

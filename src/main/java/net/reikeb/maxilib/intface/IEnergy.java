@@ -8,6 +8,7 @@ public class IEnergy {
      * @param blockEntity The BlockEntity we drain energy from
      * @param amount      The amount of energy drained
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> void drainEnergy(T blockEntity, double amount) {
         blockEntity.setElectronicPower(blockEntity.getElectronicPower() - amount);
     }
@@ -18,6 +19,7 @@ public class IEnergy {
      * @param blockEntity The BlockEntity we give energy to
      * @param amount      The amount of energy given
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> void fillEnergy(T blockEntity, double amount) {
         blockEntity.setElectronicPower(blockEntity.getElectronicPower() + amount);
     }
@@ -28,6 +30,7 @@ public class IEnergy {
      * @param blockEntity The BlockEntity to check
      * @return The amount of energy
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> double getEnergy(T blockEntity) {
         return blockEntity.getElectronicPower();
     }
@@ -38,6 +41,7 @@ public class IEnergy {
      * @param blockEntity The BlockEntity we set energy to
      * @param amount      The amount of energy we set
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> void setEnergy(T blockEntity, double amount) {
         blockEntity.setElectronicPower(amount);
     }
@@ -48,6 +52,7 @@ public class IEnergy {
      * @param blockEntity The BlockEntity to check
      * @return The capacity
      */
+    @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> int getMaxEnergy(T blockEntity) {
         return blockEntity.getMaxStorage();
     }
