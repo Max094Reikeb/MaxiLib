@@ -61,12 +61,6 @@ public abstract class AbstractFluidBlockEntity extends AbstractBlockEntity imple
         return capacity.get();
     }
 
-    public boolean getLogic() {
-        return false;
-    }
-
-    public void setLogic(boolean logic) {}
-
     @Override
     public void load(CompoundTag compound) {
         super.load(compound);

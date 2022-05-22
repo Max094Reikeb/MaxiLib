@@ -22,7 +22,7 @@ public interface EnergyInterface {
         return false;
     }
 
-    void setLogic(boolean logic);
+    default void setLogic(boolean logic) {}
 
     /**
      * Small method to drain energy from a BlockEntity

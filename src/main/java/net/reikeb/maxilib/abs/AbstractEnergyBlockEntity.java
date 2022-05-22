@@ -44,12 +44,6 @@ public abstract class AbstractEnergyBlockEntity extends AbstractBlockEntity impl
         this.maxStorage = maxStorage;
     }
 
-    public boolean getLogic() {
-        return false;
-    }
-
-    public void setLogic(boolean logic) {}
-
     public void load(CompoundTag compound) {
         super.load(compound);
         this.electronicPower = compound.getDouble("ElectronicPower");
