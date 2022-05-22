@@ -4,7 +4,7 @@ MaxiLib is a custom library with a lot of methods and classes mostly used in Max
 
 ## About
 [![](https://jitpack.io/v/Max094Reikeb/MaxiLib.svg)](https://jitpack.io/#Max094Reikeb/MaxiLib)
-[![curseforge](http://cf.way2muchnoise.eu/versions/388172.svg)](https://www.curseforge.com/minecraft/mc-mods/maxilib)
+[![curseforge](http://cf.way2muchnoise.eu/versions/624239.svg)](https://www.curseforge.com/minecraft/mc-mods/maxilib)
 ![Java CI with Gradle](https://github.com/Max094Reikeb/MaxiLib/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=1.18.2-FORGE)
 
 ## Documentation
