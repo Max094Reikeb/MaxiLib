@@ -12,7 +12,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.PalettedContainer;
+import net.minecraftforge.network.PacketDistributor;
 import net.reikeb.maxilib.MaxiLib;
+import net.reikeb.maxilib.network.NetworkManager;
+import net.reikeb.maxilib.network.packets.BiomeSingleUpdatePacket;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
@@ -31,7 +34,7 @@ public class BiomeUtil {
         if (biome == null) return;
         if (level.isClientSide) return;
         setBiomeAtPos(level, pos, biome);
-        // NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, resourceLocation));
+        NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, resourceLocation));
     }
 
     /**
@@ -46,7 +49,7 @@ public class BiomeUtil {
         if (biome == null) return;
         if (level.isClientSide) return;
         setBiomeAtPos(level, pos, biome);
-        // NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, biome.getRegistryName()));
+        NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, biome.getRegistryName()));
     }
 
     /**
