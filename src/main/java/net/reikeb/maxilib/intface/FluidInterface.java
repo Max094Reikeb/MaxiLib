@@ -8,33 +8,11 @@ public interface FluidInterface {
 
     int getTankCapacity();
 
-    /**
-     * @deprecated use {@link #getTankCapacity} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default int getMaxCapacity() {
-        return getTankCapacity();
-    }
-
     default boolean getFluidLogic() {
         return false;
     }
 
     default void setFluidLogic(boolean logic) {}
-
-    /**
-     * @deprecated use {@link #getFluidLogic} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default boolean getLogic() {
-        return false;
-    }
-
-    /**
-     * @deprecated use {@link #setFluidLogic} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default void setLogic(boolean logic) {}
 
     /**
      * Small method to drain water from a BlockEntity

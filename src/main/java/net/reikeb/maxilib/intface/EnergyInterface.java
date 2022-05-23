@@ -20,65 +20,11 @@ public interface EnergyInterface {
 
     void setMaxEnergy(int maxEnergy);
 
-    /**
-     * @deprecated use {@link #getHundredEnergy} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default int getElectronicPowerTimesHundred() {
-        return getHundredEnergy();
-    }
-
-    /**
-     * @deprecated use {@link #setHundredEnergy} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default void setElectronicPowerTimesHundred(int electronicPowerTimesHundred) {}
-
-    /**
-     * @deprecated use {@link #getEnergy} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default double getElectronicPower() {
-        return getEnergy();
-    }
-
-    /**
-     * @deprecated use {@link #setEnergy} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default void setElectronicPower(double electronicPower) {}
-
-    /**
-     * @deprecated use {@link #getMaxEnergy} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default int getMaxStorage() {return getMaxEnergy();}
-
-    /**
-     * @deprecated use {@link #setMaxEnergy} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default void setMaxStorage(int maxStorage) {}
-
     default boolean getEnergyLogic() {
         return false;
     }
 
     default void setEnergyLogic(boolean logic) {}
-
-    /**
-     * @deprecated use {@link #getEnergyLogic} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default boolean getLogic() {
-        return false;
-    }
-
-    /**
-     * @deprecated use {@link #setEnergyLogic} instead.
-     */
-    @Deprecated(forRemoval = true, since = "r1.1")
-    default void setLogic(boolean logic) {}
 
     /**
      * Small method to drain energy from a BlockEntity
