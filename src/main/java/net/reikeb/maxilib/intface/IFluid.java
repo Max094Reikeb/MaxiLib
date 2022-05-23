@@ -7,6 +7,7 @@ public class IFluid {
      *
      * @param blockEntity The BlockEntity we drain water from
      * @param amount      The amount of water drained
+     * @deprecated use {@link FluidInterface#drainWater} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> void drainWater(T blockEntity, int amount) {
@@ -18,6 +19,7 @@ public class IFluid {
      *
      * @param blockEntity The BlockEntity we give water to
      * @param amount      The amount of water given
+     * @deprecated use {@link FluidInterface#fillWater} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> void fillWater(T blockEntity, int amount) {
@@ -29,6 +31,7 @@ public class IFluid {
      *
      * @param blockEntity The BlockEntity to check
      * @return The amount of fluid
+     * @deprecated use {@link FluidInterface#getFluidAmount} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> int getFluidAmount(T blockEntity) {
@@ -40,6 +43,7 @@ public class IFluid {
      *
      * @param blockEntity The BlockEntity to check
      * @return The tank capacity
+     * @deprecated use {@link FluidInterface#getTankCapacity} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> int getTankCapacity(T blockEntity) {

@@ -7,6 +7,7 @@ public class IEnergy {
      *
      * @param blockEntity The BlockEntity we drain energy from
      * @param amount      The amount of energy drained
+     * @deprecated use {@link EnergyInterface#drainEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> void drainEnergy(T blockEntity, double amount) {
@@ -18,6 +19,7 @@ public class IEnergy {
      *
      * @param blockEntity The BlockEntity we give energy to
      * @param amount      The amount of energy given
+     * @deprecated use {@link EnergyInterface#fillEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> void fillEnergy(T blockEntity, double amount) {
@@ -51,6 +53,7 @@ public class IEnergy {
      *
      * @param blockEntity The BlockEntity to check
      * @return The capacity
+     * @deprecated use {@link EnergyInterface#getMaxEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends EnergyInterface> int getMaxEnergy(T blockEntity) {

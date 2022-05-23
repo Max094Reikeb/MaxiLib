@@ -6,6 +6,10 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 
+/**
+ * @deprecated use {@link Couple} instead.
+ */
+@Deprecated(forRemoval = true, since = "r1.1")
 public class RInputs {
 
     private final ItemStack input1;
