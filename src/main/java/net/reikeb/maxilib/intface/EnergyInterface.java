@@ -6,22 +6,56 @@ public interface EnergyInterface {
 
     ItemHandler getItemInventory();
 
+    double getEnergy();
+
+    void setEnergy(double energy);
+
+    default int getHundredEnergy() {
+        return (int) getEnergy() * 100;
+    }
+
+    void setHundredEnergy(int hundredEnergy);
+
+    /**
+     * @deprecated use {@link #getHundredEnergy} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     int getElectronicPowerTimesHundred();
 
+    /**
+     * @deprecated use {@link #setHundredEnergy} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     void setElectronicPowerTimesHundred(int electronicPowerTimesHundred);
 
+    /**
+     * @deprecated use {@link #getEnergy} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     double getElectronicPower();
 
+    /**
+     * @deprecated use {@link #setEnergy} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     void setElectronicPower(double electronicPower);
 
     int getMaxStorage();
 
     void setMaxStorage(int maxStorage);
 
+    default boolean getEnergyLogic() {
+        return false;
+    }
+
+    default void setEnergyLogic(boolean logic) {}
+
+    @Deprecated(forRemoval = true, since = "r1.1")
     default boolean getLogic() {
         return false;
     }
 
+    @Deprecated(forRemoval = true, since = "r1.1")
     default void setLogic(boolean logic) {}
 
     /**
@@ -31,7 +65,7 @@ public interface EnergyInterface {
      * @param amount      The amount of energy drained
      */
     static <T extends EnergyInterface> void drainEnergy(T blockEntity, double amount) {
-        blockEntity.setElectronicPower(blockEntity.getElectronicPower() - amount);
+        blockEntity.setEnergy(blockEntity.getEnergy() - amount);
     }
 
     /**
@@ -41,27 +75,7 @@ public interface EnergyInterface {
      * @param amount      The amount of energy given
      */
     static <T extends EnergyInterface> void fillEnergy(T blockEntity, double amount) {
-        blockEntity.setElectronicPower(blockEntity.getElectronicPower() + amount);
-    }
-
-    /**
-     * Small method to get the energy of a block in a BlockEntity
-     *
-     * @param blockEntity The BlockEntity to check
-     * @return The amount of energy
-     */
-    static <T extends EnergyInterface> double getEnergy(T blockEntity) {
-        return blockEntity.getElectronicPower();
-    }
-
-    /**
-     * Small method to set the energy of a BlockEntity
-     *
-     * @param blockEntity The BlockEntity we set energy to
-     * @param amount      The amount of energy we set
-     */
-    static <T extends EnergyInterface> void setEnergy(T blockEntity, double amount) {
-        blockEntity.setElectronicPower(amount);
+        blockEntity.setEnergy(blockEntity.getEnergy() + amount);
     }
 
     /**

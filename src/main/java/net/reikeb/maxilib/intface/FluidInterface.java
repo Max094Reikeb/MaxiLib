@@ -8,10 +8,18 @@ public interface FluidInterface {
 
     int getMaxCapacity();
 
+    default boolean getFluidLogic() {
+        return false;
+    }
+
+    default void setFluidLogic() {}
+
+    @Deprecated(forRemoval = true, since = "r1.1")
     default boolean getLogic() {
         return false;
     }
 
+    @Deprecated(forRemoval = true, since = "r1.1")
     default void setLogic(boolean logic) {}
 
     /**
