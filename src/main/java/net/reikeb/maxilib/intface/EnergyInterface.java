@@ -16,6 +16,10 @@ public interface EnergyInterface {
 
     void setHundredEnergy(int hundredEnergy);
 
+    int getMaxEnergy();
+
+    void setMaxEnergy(int maxEnergy);
+
     /**
      * @deprecated use {@link #getHundredEnergy} instead.
      */
@@ -40,8 +44,16 @@ public interface EnergyInterface {
     @Deprecated(forRemoval = true, since = "r1.1")
     default void setElectronicPower(double electronicPower) {}
 
+    /**
+     * @deprecated use {@link #getMaxEnergy} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     int getMaxStorage();
 
+    /**
+     * @deprecated use {@link #setMaxEnergy} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     void setMaxStorage(int maxStorage);
 
     default boolean getEnergyLogic() {
@@ -50,11 +62,17 @@ public interface EnergyInterface {
 
     default void setEnergyLogic(boolean logic) {}
 
+    /**
+     * @deprecated use {@link #getEnergyLogic} instead.
+     */
     @Deprecated(forRemoval = true, since = "r1.1")
     default boolean getLogic() {
         return false;
     }
 
+    /**
+     * @deprecated use {@link #setEnergyLogic} instead.
+     */
     @Deprecated(forRemoval = true, since = "r1.1")
     default void setLogic(boolean logic) {}
 
@@ -76,15 +94,5 @@ public interface EnergyInterface {
      */
     static <T extends EnergyInterface> void fillEnergy(T blockEntity, double amount) {
         blockEntity.setEnergy(blockEntity.getEnergy() + amount);
-    }
-
-    /**
-     * Small method to get the capacity of a BlockEntity
-     *
-     * @param blockEntity The BlockEntity to check
-     * @return The capacity
-     */
-    static <T extends EnergyInterface> int getMaxEnergy(T blockEntity) {
-        return blockEntity.getMaxStorage();
     }
 }

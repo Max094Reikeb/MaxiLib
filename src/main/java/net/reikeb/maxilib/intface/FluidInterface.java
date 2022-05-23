@@ -6,6 +6,12 @@ public interface FluidInterface {
 
     void setWaterLevel(int amount);
 
+    int getTankCapacity();
+
+    /**
+     * @deprecated use {@link #getTankCapacity} instead.
+     */
+    @Deprecated(forRemoval = true, since = "r1.1")
     int getMaxCapacity();
 
     default boolean getFluidLogic() {
@@ -14,11 +20,17 @@ public interface FluidInterface {
 
     default void setFluidLogic(boolean logic) {}
 
+    /**
+     * @deprecated use {@link #getFluidLogic} instead.
+     */
     @Deprecated(forRemoval = true, since = "r1.1")
     default boolean getLogic() {
         return false;
     }
 
+    /**
+     * @deprecated use {@link #setFluidLogic} instead.
+     */
     @Deprecated(forRemoval = true, since = "r1.1")
     default void setLogic(boolean logic) {}
 
@@ -40,25 +52,5 @@ public interface FluidInterface {
      */
     static <T extends FluidInterface> void fillWater(T blockEntity, int amount) {
         blockEntity.setWaterLevel(blockEntity.getWaterLevel() + amount);
-    }
-
-    /**
-     * Small method to get the amount of fluid in a BlockEntity
-     *
-     * @param blockEntity The BlockEntity to check
-     * @return The amount of fluid
-     */
-    static <T extends FluidInterface> int getFluidAmount(T blockEntity) {
-        return blockEntity.getWaterLevel();
-    }
-
-    /**
-     * Small method to get the capacity of a tank in a BlockEntity
-     *
-     * @param blockEntity The BlockEntity to check
-     * @return The tank capacity
-     */
-    static <T extends FluidInterface> int getTankCapacity(T blockEntity) {
-        return blockEntity.getMaxCapacity();
     }
 }

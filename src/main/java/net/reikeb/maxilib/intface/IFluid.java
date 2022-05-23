@@ -1,5 +1,9 @@
 package net.reikeb.maxilib.intface;
 
+/**
+ * This class's methods have been moved to {@link FluidInterface}
+ */
+@Deprecated(forRemoval = true, since = "r1.1")
 public class IFluid {
 
     /**
@@ -31,7 +35,7 @@ public class IFluid {
      *
      * @param blockEntity The BlockEntity to check
      * @return The amount of fluid
-     * @deprecated use {@link FluidInterface#getFluidAmount} instead.
+     * @deprecated use {@link FluidInterface#getWaterLevel} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
     public static <T extends FluidInterface> int getFluidAmount(T blockEntity) {

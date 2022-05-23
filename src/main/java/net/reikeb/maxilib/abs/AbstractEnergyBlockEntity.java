@@ -32,12 +32,12 @@ public abstract class AbstractEnergyBlockEntity extends AbstractBlockEntity impl
         this.electronicPower = energy;
     }
 
-    public int getMaxStorage() {
+    public int getMaxEnergy() {
         return this.maxStorage;
     }
 
-    public void setMaxStorage(int maxStorage) {
-        this.maxStorage = maxStorage;
+    public void setMaxEnergy(int maxEnergy) {
+        this.maxStorage = maxEnergy;
     }
 
     public void load(CompoundTag compound) {

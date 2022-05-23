@@ -1,5 +1,9 @@
 package net.reikeb.maxilib.intface;
 
+/**
+ * This class's methods have been moved to {@link EnergyInterface}
+ */
+@Deprecated(forRemoval = true, since = "r1.1")
 public class IEnergy {
 
     /**

@@ -54,7 +54,7 @@ public abstract class AbstractFluidBlockEntity extends AbstractBlockEntity imple
                 .ifPresent(cap -> cap.fill(new FluidStack(Fluids.WATER, amount), IFluidHandler.FluidAction.EXECUTE));
     }
 
-    public int getMaxCapacity() {
+    public int getTankCapacity() {
         AtomicInteger capacity = new AtomicInteger();
         this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
                 .ifPresent(cap -> capacity.set(cap.getTankCapacity(1)));
