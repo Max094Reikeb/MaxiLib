@@ -10,8 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.PalettedContainer;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.network.PacketDistributor;
 import net.reikeb.maxilib.MaxiLib;
 import net.reikeb.maxilib.network.NetworkManager;
@@ -60,13 +59,11 @@ public class BiomeUtil {
      * @param biome The other biome to replace with
      */
     public static void setBiomeAtPos(Level level, BlockPos pos, Biome biome) {
-        LevelChunk chunk = level.getChunk(pos.getX() >> 4, pos.getZ() >> 4);
-        PalettedContainer<Holder<Biome>> biomes = chunk.getSection(chunk.getSectionIndex(pos.getY())).getBiomes();
-        biomes.getAndSetUnchecked(
-                pos.getX() & 3, pos.getY() & 3, pos.getZ() & 3,
-                Holder.direct(biome)
+        ChunkAccess chunkAccess = level.getChunk(pos);
+        chunkAccess.getSection(chunkAccess.getSectionIndex(pos.getY())).getBiomes().getAndSetUnchecked(
+                pos.getX() & 3, pos.getY() & 3, pos.getZ() & 3, Holder.direct(biome)
         );
-        chunk.setUnsaved(true);
+        chunkAccess.setUnsaved(true);
     }
 
     /**
