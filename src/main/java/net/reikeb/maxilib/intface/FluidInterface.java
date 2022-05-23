@@ -12,7 +12,7 @@ public interface FluidInterface {
         return false;
     }
 
-    default void setFluidLogic() {}
+    default void setFluidLogic(boolean logic) {}
 
     @Deprecated(forRemoval = true, since = "r1.1")
     default boolean getLogic() {

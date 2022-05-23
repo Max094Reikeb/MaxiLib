@@ -26,7 +26,7 @@ public interface EnergyInterface {
      * @deprecated use {@link #setHundredEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    void setElectronicPowerTimesHundred(int electronicPowerTimesHundred);
+    default void setElectronicPowerTimesHundred(int electronicPowerTimesHundred) {}
 
     /**
      * @deprecated use {@link #getEnergy} instead.
@@ -38,7 +38,7 @@ public interface EnergyInterface {
      * @deprecated use {@link #setEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    void setElectronicPower(double electronicPower);
+    default void setElectronicPower(double electronicPower) {}
 
     int getMaxStorage();
 
