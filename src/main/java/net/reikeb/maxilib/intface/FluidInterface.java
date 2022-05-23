@@ -12,7 +12,9 @@ public interface FluidInterface {
      * @deprecated use {@link #getTankCapacity} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    int getMaxCapacity();
+    default int getMaxCapacity() {
+        return getTankCapacity();
+    }
 
     default boolean getFluidLogic() {
         return false;

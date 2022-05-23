@@ -24,7 +24,9 @@ public interface EnergyInterface {
      * @deprecated use {@link #getHundredEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    int getElectronicPowerTimesHundred();
+    default int getElectronicPowerTimesHundred() {
+        return getHundredEnergy();
+    }
 
     /**
      * @deprecated use {@link #setHundredEnergy} instead.
@@ -36,7 +38,9 @@ public interface EnergyInterface {
      * @deprecated use {@link #getEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    double getElectronicPower();
+    default double getElectronicPower() {
+        return getEnergy();
+    }
 
     /**
      * @deprecated use {@link #setEnergy} instead.
@@ -48,13 +52,13 @@ public interface EnergyInterface {
      * @deprecated use {@link #getMaxEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    int getMaxStorage();
+    default int getMaxStorage() {return getMaxEnergy();}
 
     /**
      * @deprecated use {@link #setMaxEnergy} instead.
      */
     @Deprecated(forRemoval = true, since = "r1.1")
-    void setMaxStorage(int maxStorage);
+    default void setMaxStorage(int maxStorage) {}
 
     default boolean getEnergyLogic() {
         return false;
