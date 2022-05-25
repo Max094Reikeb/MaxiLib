@@ -43,6 +43,7 @@ public class BiomeUtil {
      * @param resourceLocation The biome's ResourceLocation to replace with
      */
     public static void setBiomeAtPos(Level level, BlockPos pos, ResourceLocation resourceLocation) {
+        if (pos.getY() < level.getMinBuildHeight()) return;
         Biome biome = getBiome(level, resourceLocation, Registry::get);
         if (biome == null) return;
         if (level.isClientSide) return;
@@ -58,6 +59,7 @@ public class BiomeUtil {
      * @param biomeKey The biome's ResourceKey to replace with
      */
     public static void setBiomeKeyAtPos(Level level, BlockPos pos, ResourceKey<Biome> biomeKey) {
+        if (pos.getY() < level.getMinBuildHeight()) return;
         Biome biome = getBiome(level, biomeKey, Registry::get);
         if (biome == null) return;
         if (level.isClientSide) return;
@@ -73,6 +75,7 @@ public class BiomeUtil {
      * @param biome The other biome to replace with
      */
     public static void setBiomeAtPos(Level level, BlockPos pos, Biome biome) {
+        if (pos.getY() < level.getMinBuildHeight()) return;
         ChunkAccess chunkAccess = level.getChunk(pos);
         chunkAccess.getSection(chunkAccess.getSectionIndex(pos.getY())).getBiomes().getAndSetUnchecked(
                 pos.getX() & 3, pos.getY() & 3, pos.getZ() & 3, Holder.direct(biome)
