@@ -17,9 +17,23 @@ import net.reikeb.maxilib.network.NetworkManager;
 import net.reikeb.maxilib.network.packets.BiomeSingleUpdatePacket;
 
 import javax.annotation.Nullable;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public class BiomeUtil {
+
+    /**
+     * Method to get a Biome from a ResourceLocation or a ResourceKey
+     *
+     * @param level The world of the Biome
+     * @param key   The ResourceKey of the Biome
+     * @param fun   The get function
+     * @param <U>   The ResourceLocation of the Biome
+     * @return The Biome
+     */
+    public static <U> Biome getBiome(final Level level, final U key, final BiFunction<Registry<Biome>, U, Biome> fun) {
+        return fun.apply(level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY), key);
+    }
 
     /**
      * Modifies the biome at a location by a biome's ResourceLocation
@@ -29,7 +43,7 @@ public class BiomeUtil {
      * @param resourceLocation The biome's ResourceLocation to replace with
      */
     public static void setBiomeAtPos(Level level, BlockPos pos, ResourceLocation resourceLocation) {
-        Biome biome = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(resourceLocation);
+        Biome biome = getBiome(level, resourceLocation, Registry::get);
         if (biome == null) return;
         if (level.isClientSide) return;
         setBiomeAtPos(level, pos, biome);
@@ -44,7 +58,7 @@ public class BiomeUtil {
      * @param biomeKey The biome's ResourceKey to replace with
      */
     public static void setBiomeKeyAtPos(Level level, BlockPos pos, ResourceKey<Biome> biomeKey) {
-        Biome biome = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(biomeKey);
+        Biome biome = getBiome(level, biomeKey, Registry::get);
         if (biome == null) return;
         if (level.isClientSide) return;
         setBiomeAtPos(level, pos, biome);
