@@ -41,7 +41,9 @@ public class BiomeUtil {
      * @param level            The level of the biome
      * @param pos              The location of the biome
      * @param resourceLocation The biome's ResourceLocation to replace with
+     * @deprecated use {@link #setBiomeAtPos(Level, BlockPos, Object, BiFunction)} instead
      */
+    @Deprecated(forRemoval = true, since = "r1.1.1")
     public static void setBiomeAtPos(Level level, BlockPos pos, ResourceLocation resourceLocation) {
         if (pos.getY() < level.getMinBuildHeight()) return;
         Biome biome = getBiome(level, resourceLocation, Registry::get);
@@ -52,12 +54,32 @@ public class BiomeUtil {
     }
 
     /**
+     * Modifies the biome at a location by a biome's RegistryName or RegistryKey
+     *
+     * @param level The world of the biome
+     * @param pos   The location of the biome
+     * @param key   The RegistryName/RegistryKey of the biome
+     * @param fun   The get function
+     * @param <U>   The class of the key
+     */
+    public static <U> void setBiomeAtPos(Level level, BlockPos pos, U key, BiFunction<Registry<Biome>, U, Biome> fun) {
+        if (pos.getY() < level.getMinBuildHeight()) return;
+        Biome biome = getBiome(level, key, fun);
+        if (biome == null) return;
+        if (level.isClientSide) return;
+        setBiomeAtPos(level, pos, biome);
+        NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, biome.getRegistryName()));
+    }
+
+    /**
      * Modifies the biome at a location by a biome's ResourceKey
      *
      * @param level    The level of the biome
      * @param pos      The location of the biome
      * @param biomeKey The biome's ResourceKey to replace with
+     * @deprecated use {@link #setBiomeAtPos(Level, BlockPos, Object, BiFunction)} instead
      */
+    @Deprecated(forRemoval = true, since = "r1.1.1")
     public static void setBiomeKeyAtPos(Level level, BlockPos pos, ResourceKey<Biome> biomeKey) {
         if (pos.getY() < level.getMinBuildHeight()) return;
         Biome biome = getBiome(level, biomeKey, Registry::get);
@@ -69,6 +91,8 @@ public class BiomeUtil {
 
     /**
      * Modifies the biome at a location by another biome
+     * <p>
+     * This method is only executed on 1 side hence why it's important to always call {@link #setBiomeAtPos(Level, BlockPos, Object, BiFunction)} to make sure the method is called on both sides
      *
      * @param level The level of the biome
      * @param pos   The location of the biome
