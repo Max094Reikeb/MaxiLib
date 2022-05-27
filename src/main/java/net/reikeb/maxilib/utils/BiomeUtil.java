@@ -6,7 +6,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -36,24 +35,6 @@ public class BiomeUtil {
     }
 
     /**
-     * Modifies the biome at a location by a biome's ResourceLocation
-     *
-     * @param level            The level of the biome
-     * @param pos              The location of the biome
-     * @param resourceLocation The biome's ResourceLocation to replace with
-     * @deprecated use {@link #setBiomeAtPos(Level, BlockPos, Object, BiFunction)} instead
-     */
-    @Deprecated(forRemoval = true, since = "r1.1.1")
-    public static void setBiomeAtPos(Level level, BlockPos pos, ResourceLocation resourceLocation) {
-        if (pos.getY() < level.getMinBuildHeight()) return;
-        Biome biome = getBiome(level, resourceLocation, Registry::get);
-        if (biome == null) return;
-        if (level.isClientSide) return;
-        setBiomeAtPos(level, pos, biome);
-        NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, resourceLocation));
-    }
-
-    /**
      * Modifies the biome at a location by a biome's RegistryName or RegistryKey
      *
      * @param level The world of the biome
@@ -65,24 +46,6 @@ public class BiomeUtil {
     public static <U> void setBiomeAtPos(Level level, BlockPos pos, U key, BiFunction<Registry<Biome>, U, Biome> fun) {
         if (pos.getY() < level.getMinBuildHeight()) return;
         Biome biome = getBiome(level, key, fun);
-        if (biome == null) return;
-        if (level.isClientSide) return;
-        setBiomeAtPos(level, pos, biome);
-        NetworkManager.INSTANCE.send(PacketDistributor.ALL.noArg(), new BiomeSingleUpdatePacket(pos, biome.getRegistryName()));
-    }
-
-    /**
-     * Modifies the biome at a location by a biome's ResourceKey
-     *
-     * @param level    The level of the biome
-     * @param pos      The location of the biome
-     * @param biomeKey The biome's ResourceKey to replace with
-     * @deprecated use {@link #setBiomeAtPos(Level, BlockPos, Object, BiFunction)} instead
-     */
-    @Deprecated(forRemoval = true, since = "r1.1.1")
-    public static void setBiomeKeyAtPos(Level level, BlockPos pos, ResourceKey<Biome> biomeKey) {
-        if (pos.getY() < level.getMinBuildHeight()) return;
-        Biome biome = getBiome(level, biomeKey, Registry::get);
         if (biome == null) return;
         if (level.isClientSide) return;
         setBiomeAtPos(level, pos, biome);
