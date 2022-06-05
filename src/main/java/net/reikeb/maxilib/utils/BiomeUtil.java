@@ -29,7 +29,9 @@ public class BiomeUtil {
      * @param fun   The get function
      * @param <U>   The ResourceLocation of the Biome
      * @return The Biome
+     * @deprecated this method was moved to BiomeTools library
      */
+    @Deprecated(forRemoval = true, since = "r1.2")
     public static <U> Biome getBiome(final Level level, final U key, final BiFunction<Registry<Biome>, U, Biome> fun) {
         return fun.apply(level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY), key);
     }
@@ -42,7 +44,9 @@ public class BiomeUtil {
      * @param key   The RegistryName/RegistryKey of the biome
      * @param fun   The get function
      * @param <U>   The class of the key
+     * @deprecated this method was moved to BiomeTools library
      */
+    @Deprecated(forRemoval = true, since = "r1.2")
     public static <U> void setBiomeAtPos(Level level, BlockPos pos, U key, BiFunction<Registry<Biome>, U, Biome> fun) {
         if (pos.getY() < level.getMinBuildHeight()) return;
         Biome biome = getBiome(level, key, fun);
@@ -60,7 +64,9 @@ public class BiomeUtil {
      * @param level The level of the biome
      * @param pos   The location of the biome
      * @param biome The other biome to replace with
+     * @deprecated this method was moved to BiomeTools library
      */
+    @Deprecated(forRemoval = true, since = "r1.2")
     public static void setBiomeAtPos(Level level, BlockPos pos, Biome biome) {
         if (pos.getY() < level.getMinBuildHeight()) return;
         ChunkAccess chunkAccess = level.getChunk(pos);
@@ -78,7 +84,9 @@ public class BiomeUtil {
      * @param startPosition The position from where we start to search
      * @param biomeToFind   The biome we want to find
      * @return Closest position of the biome
+     * @deprecated this method was moved to BiomeTools library
      */
+    @Deprecated(forRemoval = true, since = "r1.2")
     @Nullable // This runs server side ONLY, so `ServerLevel` is safe here.
     public static BlockPos getNearestBiomePosition(ServerLevel serverLevel, BlockPos startPosition, ResourceKey<Biome> biomeToFind) {
         return getNearestBiomePosition(serverLevel, startPosition, biomeToFind, 6400, 8);
@@ -94,7 +102,9 @@ public class BiomeUtil {
      * @param searchRadius   The radius from where we search the biome
      * @param incrementation Each time the search loops, this increases the xz position from the origin, think of it as a "precision", this will check every 8 blocks, if this is "8", until the search radius is reached.
      * @return Closest position of the biome
+     * @deprecated this method was moved to BiomeTools library
      */
+    @Deprecated(forRemoval = true, since = "r1.2")
     @Nullable // This runs server side ONLY, so `ServerLevel` is safe here.
     public static BlockPos getNearestBiomePosition(ServerLevel serverLevel, BlockPos startPosition, ResourceKey<Biome> biomeToFind, int searchRadius, int incrementation) {
         Registry<Biome> biomes = serverLevel.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
