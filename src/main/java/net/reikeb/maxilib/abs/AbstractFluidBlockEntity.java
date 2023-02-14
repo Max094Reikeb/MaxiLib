@@ -7,12 +7,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.reikeb.maxilib.intface.FluidInterface;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -77,9 +77,9 @@ public abstract class AbstractFluidBlockEntity extends AbstractBlockEntity imple
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        if (!this.remove && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+        if (!this.remove && cap == ForgeCapabilities.FLUID_HANDLER)
             return LazyOptional.of(() -> fluidTank).cast();
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> this.inventory));
+        return ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> this.inventory));
     }
 
     public static class FluidTankHandler extends FluidTank {
