@@ -89,7 +89,7 @@ public abstract class AbstractFluidBlockEntity extends AbstractBlockEntity imple
 
         public CompoundTag serializeNBT() {
             CompoundTag nbt = new CompoundTag();
-            nbt.putString("FluidName", this.fluid.getFluid().getRegistryName().toString());
+            nbt.putString("FluidName", this.fluid.getFluid().toString());
             nbt.putInt("Amount", this.fluid.getAmount());
             return nbt;
         }

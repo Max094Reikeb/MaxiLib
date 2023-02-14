@@ -5,8 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,8 +17,8 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.reikeb.maxilib.inventory.ItemHandler;
 
@@ -44,16 +42,16 @@ public abstract class AbstractBlockEntity extends BaseContainerBlockEntity {
 
     @Override
     protected Component getDefaultName() {
-        return new TextComponent(this.defaultName);
+        return Component.literal(this.defaultName);
     }
 
     private Component getModId() {
-        return new TextComponent(this.modId);
+        return Component.literal(this.modId);
     }
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("gui." + this.getModId() + "." + this.getDefaultName() + ".name");
+        return Component.translatable("gui." + this.getModId() + "." + this.getDefaultName() + ".name");
     }
 
     public ItemStack getItem(int slot) {
@@ -131,7 +129,7 @@ public abstract class AbstractBlockEntity extends BaseContainerBlockEntity {
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> this.inventory));
+        return ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> this.inventory));
     }
 
     public void dropItems(Level level, BlockPos pos) {

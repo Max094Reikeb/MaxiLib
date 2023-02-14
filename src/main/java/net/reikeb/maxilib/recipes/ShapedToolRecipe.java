@@ -9,14 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.reikeb.maxilib.MaxiLib;
 
 import java.util.Map;
@@ -32,10 +28,12 @@ public class ShapedToolRecipe implements CraftingRecipe, IShapedRecipe<CraftingC
     final NonNullList<Ingredient> unconsumedItems;
     private final ResourceLocation id;
     final String group;
+    final CraftingBookCategory category;
 
-    public ShapedToolRecipe(ResourceLocation resourceLocation, String name, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result, NonNullList<Ingredient> unconsumed) {
+    public ShapedToolRecipe(ResourceLocation resourceLocation, String name, CraftingBookCategory category, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result, NonNullList<Ingredient> unconsumed) {
         this.id = resourceLocation;
         this.group = name;
+        this.category = category;
         this.width = width;
         this.height = height;
         this.recipeItems = ingredients;
@@ -53,6 +51,10 @@ public class ShapedToolRecipe implements CraftingRecipe, IShapedRecipe<CraftingC
 
     public String getGroup() {
         return this.group;
+    }
+
+    public CraftingBookCategory category() {
+        return this.category;
     }
 
     public ItemStack getResultItem() {
@@ -200,14 +202,11 @@ public class ShapedToolRecipe implements CraftingRecipe, IShapedRecipe<CraftingC
         }
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ShapedToolRecipe> {
-
-        Serializer() {
-            this.setRegistryName(new ResourceLocation(MaxiLib.MODID, "tool_shaped"));
-        }
+    public static class Serializer implements RecipeSerializer<ShapedToolRecipe> {
 
         public ShapedToolRecipe fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
             String s = GsonHelper.getAsString(jsonObject, "group", "");
+            CraftingBookCategory craftingBookCategory = CraftingBookCategory.CODEC.byName(GsonHelper.getAsString(jsonObject, "category", null), CraftingBookCategory.MISC);
             Map<String, Ingredient> map = ShapedRecipe.keyFromJson(GsonHelper.getAsJsonObject(jsonObject, "key"));
             String[] astring = ShapedRecipe.shrink(ShapedRecipe.patternFromJson(GsonHelper.getAsJsonArray(jsonObject, "pattern")));
             int i = astring[0].length();
@@ -215,7 +214,7 @@ public class ShapedToolRecipe implements CraftingRecipe, IShapedRecipe<CraftingC
             NonNullList<Ingredient> list = ShapedRecipe.dissolvePattern(astring, map, i, j);
             ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "result"));
             NonNullList<Ingredient> unconsumedItems = ingredientFromJson(GsonHelper.getAsJsonArray(jsonObject, "unconsumed"));
-            return new ShapedToolRecipe(resourceLocation, s, i, j, list, itemstack, unconsumedItems);
+            return new ShapedToolRecipe(resourceLocation, s, craftingBookCategory, i, j, list, itemstack, unconsumedItems);
         }
 
         public ShapedToolRecipe fromNetwork(ResourceLocation resourceLocation, FriendlyByteBuf friendlyByteBuf) {
@@ -223,6 +222,7 @@ public class ShapedToolRecipe implements CraftingRecipe, IShapedRecipe<CraftingC
             int j = friendlyByteBuf.readVarInt();
             int size = friendlyByteBuf.readVarInt();
             String s = friendlyByteBuf.readUtf();
+            CraftingBookCategory craftingBookCategory = friendlyByteBuf.readEnum(CraftingBookCategory.class);
             NonNullList<Ingredient> list = NonNullList.withSize(i * j, Ingredient.EMPTY);
 
             list.replaceAll(ignored -> Ingredient.fromNetwork(friendlyByteBuf));
@@ -231,7 +231,7 @@ public class ShapedToolRecipe implements CraftingRecipe, IShapedRecipe<CraftingC
             NonNullList<Ingredient> unconsumed = NonNullList.withSize(size, Ingredient.EMPTY);
 
             unconsumed.replaceAll(ignored -> Ingredient.fromNetwork(friendlyByteBuf));
-            return new ShapedToolRecipe(resourceLocation, s, i, j, list, itemStack, unconsumed);
+            return new ShapedToolRecipe(resourceLocation, s, craftingBookCategory, i, j, list, itemStack, unconsumed);
         }
 
         public void toNetwork(FriendlyByteBuf friendlyByteBuf, ShapedToolRecipe recipe) {

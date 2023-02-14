@@ -8,14 +8,9 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.RecipeMatcher;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.reikeb.maxilib.MaxiLib;
 
 public class ShapelessToolRecipe implements CraftingRecipe {
 
@@ -23,14 +18,16 @@ public class ShapelessToolRecipe implements CraftingRecipe {
 
     private final ResourceLocation id;
     final String group;
+    final CraftingBookCategory category;
     final NonNullList<Ingredient> ingredients;
     final ItemStack result;
     final NonNullList<Ingredient> unconsumedItems;
     private final boolean isSimple;
 
-    public ShapelessToolRecipe(ResourceLocation resourceLocation, String group, NonNullList<Ingredient> ingredients, ItemStack result, NonNullList<Ingredient> unconsumed) {
+    public ShapelessToolRecipe(ResourceLocation resourceLocation, String group, CraftingBookCategory category, NonNullList<Ingredient> ingredients, ItemStack result, NonNullList<Ingredient> unconsumed) {
         this.id = resourceLocation;
         this.group = group;
+        this.category = category;
         this.ingredients = ingredients;
         this.result = result;
         this.unconsumedItems = unconsumed;
@@ -47,6 +44,10 @@ public class ShapelessToolRecipe implements CraftingRecipe {
 
     public String getGroup() {
         return this.group;
+    }
+
+    public CraftingBookCategory category() {
+        return this.category;
     }
 
     public ItemStack getResultItem() {
@@ -90,22 +91,20 @@ public class ShapelessToolRecipe implements CraftingRecipe {
         return dim1 * dim2 >= this.ingredients.size();
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ShapelessToolRecipe> {
-
-        Serializer() {
-            this.setRegistryName(new ResourceLocation(MaxiLib.MODID, "tool_shapeless"));
-        }
+    public static class Serializer implements RecipeSerializer<ShapelessToolRecipe> {
 
         public ShapelessToolRecipe fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
             String s = GsonHelper.getAsString(jsonObject, "group", "");
+            CraftingBookCategory craftingBookCategory = CraftingBookCategory.CODEC.byName(GsonHelper.getAsString(jsonObject, "category", null), CraftingBookCategory.MISC);
             NonNullList<Ingredient> list = ShapedToolRecipe.ingredientFromJson(GsonHelper.getAsJsonArray(jsonObject, "ingredients"));
             ItemStack itemStack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "result"));
             NonNullList<Ingredient> unconsumedItems = ShapedToolRecipe.ingredientFromJson(GsonHelper.getAsJsonArray(jsonObject, "unconsumed"));
-            return new ShapelessToolRecipe(resourceLocation, s, list, itemStack, unconsumedItems);
+            return new ShapelessToolRecipe(resourceLocation, s, craftingBookCategory, list, itemStack, unconsumedItems);
         }
 
         public ShapelessToolRecipe fromNetwork(ResourceLocation resourceLocation, FriendlyByteBuf friendlyByteBuf) {
             String s = friendlyByteBuf.readUtf();
+            CraftingBookCategory craftingBookCategory = friendlyByteBuf.readEnum(CraftingBookCategory.class);
             int i = friendlyByteBuf.readVarInt();
             int size = friendlyByteBuf.readVarInt();
             NonNullList<Ingredient> list = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -116,7 +115,7 @@ public class ShapelessToolRecipe implements CraftingRecipe {
             NonNullList<Ingredient> unconsumed = NonNullList.withSize(size, Ingredient.EMPTY);
 
             unconsumed.replaceAll(ignored -> Ingredient.fromNetwork(friendlyByteBuf));
-            return new ShapelessToolRecipe(resourceLocation, s, list, itemStack, unconsumed);
+            return new ShapelessToolRecipe(resourceLocation, s, craftingBookCategory, list, itemStack, unconsumed);
         }
 
         public void toNetwork(FriendlyByteBuf friendlyByteBuf, ShapelessToolRecipe recipe) {

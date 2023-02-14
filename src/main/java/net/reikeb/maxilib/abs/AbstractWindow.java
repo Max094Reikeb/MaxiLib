@@ -53,7 +53,6 @@ public abstract class AbstractWindow<C extends AbstractContainerMenu> extends Ab
     @Override
     public void removed() {
         super.removed();
-        this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
     }
 
     @Override

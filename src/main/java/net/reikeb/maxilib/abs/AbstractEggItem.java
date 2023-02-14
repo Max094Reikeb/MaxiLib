@@ -5,11 +5,11 @@ import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.context.UseOnContext;
@@ -29,7 +29,7 @@ public class AbstractEggItem extends ForgeSpawnEggItem {
     private final Supplier<? extends EntityType<? extends Mob>> entityType;
 
     public AbstractEggItem(Supplier<? extends EntityType<? extends Mob>> entityType, int color1, int color2) {
-        super(entityType, color1, color2, new Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC));
+        super(entityType, color1, color2, new Properties().stacksTo(1));
         this.entityType = entityType;
         DispenserBlock.registerBehavior(this,
                 new DefaultDispenseItemBehavior() {
@@ -53,7 +53,7 @@ public class AbstractEggItem extends ForgeSpawnEggItem {
         BlockState blockState = level.getBlockState(blockPos);
         if (level.getBlockEntity(blockPos) instanceof SpawnerBlockEntity spawnerBlockEntity) {
             BaseSpawner baseSpawner = spawnerBlockEntity.getSpawner();
-            baseSpawner.setEntityId(this.entityType.get());
+            baseSpawner.setEntityId(this.entityType.get(), level, RandomSource.create(), blockPos);
             spawnerBlockEntity.setChanged();
             level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_CLIENTS + Block.UPDATE_NEIGHBORS);
             itemStack.shrink(1);
